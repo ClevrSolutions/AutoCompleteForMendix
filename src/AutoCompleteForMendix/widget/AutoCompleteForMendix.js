@@ -36,7 +36,7 @@ define([
     "AutoCompleteForMendix/lib/jquery-1.11.2",
     "AutoCompleteForMendix/lib/select2",
     "dojo/text!AutoCompleteForMendix/widget/template/AutoCompleteForMendix.html"
-], function(declare, _WidgetBase, _TemplatedMixin, dom, dojoDom, dojoProp, dojoGeometry, dojoClass, dojoStyle, dojoConstruct, dojoArray, dojoLang, dojoText, dojoHtml, dojoEvent, dojo, _jQuery, _select2, widgetTemplate) {
+], function(declare, _WidgetBase, _TemplatedMixin, dom, dojoDom, dojoProp, dojoGeometry, dojoClass, dojoStyle, dojoConstruct, dojoArray, dojoLang, dojoText, dojoHtml, dojoEvent, dojoKernel, _jQuery, _select2, widgetTemplate) {
     "use strict";
 
     var $ = _jQuery.noConflict(true);
@@ -466,7 +466,7 @@ define([
             
             for(var i = 0;i< this.variableData.length; i++){
                 resultDisplay = this._mergeTemplate(this.variableData[i].variables, resultTemplate, false);
-                var div = dom.div({
+                var div = dom.create("div", {
                     "class": "autoCompleteResult"
                 });
                 div.innerHTML = resultDisplay;
@@ -529,9 +529,7 @@ define([
             
             if (callback && typeof callback === "function") {
                 logger.debug(this.id + "._formatData callback");
-                callback({
-                    results: matches
-                });
+                callback();
             }
         },
         
@@ -560,7 +558,7 @@ define([
                 numberOptions = {};
                 numberOptions.places = this._attributeList[i].decimalPrecision;
                 if (this._attributeList[i].groupDigits) {
-                    numberOptions.locale = dojo.locale;
+                    numberOptions.locale = dojoKernel.locale;
                     numberOptions.groups = true; 
                 }
 
@@ -647,7 +645,7 @@ define([
             }
 
             options.selector = format;
-            datevalue = dojo.date.locale.format(new Date(value), options);
+            datevalue = dojoKernel.date.locale.format(new Date(value), options);
             
             return datevalue;
         },
